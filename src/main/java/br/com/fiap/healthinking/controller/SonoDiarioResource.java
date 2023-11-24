@@ -17,11 +17,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
-@Path("/healthinking/sono")
+@Path("/")
 public class SonoDiarioResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("sonos")
 	public Response findAll() {
 		ArrayList<SonoDiario> resposta = SonoDiarioRepository.findAll();
 		ResponseBuilder response = Response.ok();
@@ -29,8 +30,19 @@ public class SonoDiarioResource {
 		return response.build();
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("sonos/{idCliente}")
+	public Response findByIdCliente(@PathParam("idCliente") Long idCliente) {
+		ArrayList<SonoDiario> resposta = SonoDiarioRepository.findByIdCliente(idCliente);
+		ResponseBuilder response = Response.ok();
+		response.entity(resposta);
+		return response.build();
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("sono")
 	public Response save(@Valid SonoDiario sonoDiario) {
 		SonoDiario resposta = SonoDiarioRepository.save(sonoDiario);
 		ResponseBuilder response = null;
@@ -44,7 +56,7 @@ public class SonoDiarioResource {
 	}
 	
 	@DELETE
-	@Path("/{id}")
+	@Path("sonos/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		if (SonoDiarioRepository.delete(id)) {
 			ResponseBuilder response = Response.noContent();
@@ -57,6 +69,7 @@ public class SonoDiarioResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("sono")
 	public Response update(@Valid SonoDiario sonoDiario) {
 		SonoDiario resposta = SonoDiarioRepository.update(sonoDiario);
 		ResponseBuilder response = null;
