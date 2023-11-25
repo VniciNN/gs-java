@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import br.com.fiap.healthinking.model.entity.Cliente;
 
 public class ClienteRepository extends Repository{
-
+	
 	public static ArrayList<Cliente> findAll() {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		String sql = "select * from t_ht_cliente";
@@ -38,6 +38,35 @@ public class ClienteRepository extends Repository{
 			closeConnection();
 		}
 		return clientes;
+	}
+	
+	public static Cliente findClienteByUser(String userCLiente) {
+		String sql = "select * from t_ht_cliente where usuario_cliente=?";
+		Cliente cliente = new Cliente();
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, userCLiente);
+			ResultSet rs = ps.executeQuery();
+			if (rs != null) {
+				while(rs.next()) {
+					cliente.setIdCliente(rs.getLong("id_cliente"));
+					cliente.setUserCliente(rs.getString("usuario_cliente"));
+					cliente.setSenhaCliente(rs.getString("senha_cliente"));
+					cliente.setNomeCLiente(rs.getString("nome_cliente"));
+					cliente.setDataNascimento(rs.getDate("data_nasc_cliente").toLocalDate());
+					cliente.setAlturaCLiente(rs.getFloat("altura_cliente"));
+					cliente.setPesoCliente(rs.getFloat("peso_cliente"));
+					cliente.setClassificacaoBmi(rs.getString("classificacao_bmi"));
+				}
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			closeConnection();
+		}
+		return cliente;
 	}
 	
 	public static Cliente save(Cliente cliente) {
