@@ -38,6 +38,36 @@ public class SonoDiarioRepository extends Repository {
 		return sonosDiarios;
 	}
 	
+	public static ArrayList<SonoDiario> findByIdCliente(Long idCliente) {
+		ArrayList<SonoDiario> sonosDiarios = new ArrayList<SonoDiario>();
+		String sql = "select * from t_ht_sono_diario_cliente where id_cliente = ? ";
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setLong(1, idCliente);
+			ResultSet rs = ps.executeQuery();
+			if (rs != null) {
+				while(rs.next()) {
+					SonoDiario sonoDiario = new SonoDiario();
+					sonoDiario.setIdSono(rs.getLong("id_sono"));
+					sonoDiario.setIdCliente(rs.getLong("id_cliente"));
+					sonoDiario.setDuracaoSono(rs.getFloat("duracao_sono"));
+					sonoDiario.setDataSono(rs.getDate("data_sono").toLocalDate());
+					sonoDiario.setQualidadeSono(rs.getString("qualidade_sono"));
+					sonoDiario.setAtividadeFisica(rs.getInt("tempo_atividade_fisica"));
+					sonoDiario.setNivelEstresse(rs.getString("nivel_estresse"));
+					sonosDiarios.add(sonoDiario);
+				}
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar: " + e.getMessage());
+		} finally {
+			closeConnection();
+		}
+		return sonosDiarios;
+	}
+	
 	public static SonoDiario save(SonoDiario sonoDiario) {
 		String sql = "insert into t_ht_sono_diario_cliente "
 				+ "(id_sono, id_cliente, duracao_sono, data_sono, qualidade_sono, tempo_atividade_fisica, nivel_estresse) "
