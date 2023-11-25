@@ -2,26 +2,35 @@ package br.com.fiap.healthinking.model.entity;
 
 import java.time.LocalDate;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
 public class Cliente {
 
+	@JsonbProperty("id_cliente")
 	private Long idCliente;
 	@NotBlank
+	@JsonbProperty("usuario_cliente")
 	private String userCliente;
 	@NotBlank
+	@JsonbProperty("senha_cliente")
 	private String senhaCliente;
 	@NotBlank
+	@JsonbProperty("nome_cliente")
 	private String nomeCLiente;
 	@NotBlank
+	@PastOrPresent
+	@JsonbProperty("data_nasc_cliente")
 	private LocalDate dataNascimento;
 	@NotBlank
-	@PastOrPresent
+	@JsonbProperty("altura_cliente")
 	private float alturaCLiente;
 	@NotBlank
+	@JsonbProperty("peso_cliente")
 	private float pesoCliente;
 	@NotBlank
+	@JsonbProperty("classificacao_bmi")
 	private String classificacaoBmi;
 	
 	public Cliente() {
@@ -104,6 +113,13 @@ public class Cliente {
 
 	public void setClassificacaoBmi(String classificacaoBmi) {
 		this.classificacaoBmi = classificacaoBmi;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [idCliente=" + idCliente + ", userCliente=" + userCliente + ", senhaCliente=" + senhaCliente
+				+ ", nomeCLiente=" + nomeCLiente + ", dataNascimento=" + dataNascimento + ", alturaCLiente="
+				+ alturaCLiente + ", pesoCliente=" + pesoCliente + ", classificacaoBmi=" + classificacaoBmi + "]";
 	}
 	
 	
