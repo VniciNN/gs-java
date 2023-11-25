@@ -2,24 +2,32 @@ package br.com.fiap.healthinking.model.entity;
 
 import java.time.LocalDate;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
 public class SonoDiario {
 
+	@JsonbProperty("id_sono")
 	private Long idSono;
 	@NotBlank
+	@JsonbProperty("id_cliente")
 	private Long idCliente;
 	@NotBlank
+	@JsonbProperty("duracao_sono")
 	private float duracaoSono;
 	@NotBlank
+	@JsonbProperty("data_sono")
 	private LocalDate dataSono;
 	@NotBlank
+	@JsonbProperty("qualidade_sono")
 	private String qualidadeSono;
 	@NotBlank
 	@PastOrPresent
+	@JsonbProperty("tempo_atividade_fisica")
 	private int atividadeFisica;
 	@NotBlank
+	@JsonbProperty("nivel_estresse")
 	private String nivelEstresse;
 	
 	public SonoDiario() {
